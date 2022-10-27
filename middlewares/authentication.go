@@ -2,8 +2,9 @@ package middlewares
 
 import (
 	"FP2/helpers"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Authentication() gin.HandlerFunc {
@@ -13,11 +14,11 @@ func Authentication() gin.HandlerFunc {
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error":   "Unauthorized",
+				"error":   "Unauthenticated",
 				"message": err.Error(),
 			})
-			return
 		}
+
 		c.Set("userData", verifyToken)
 		c.Next()
 	}

@@ -6,16 +6,15 @@ import (
 )
 
 type Photo struct {
-	ID       uint
-	Title    string
-	Caption  string
-	PhotoURL string
+	gorm.Model
+	Title    string `gorm:"not null" json:"title" form:"title" validation:"required"`
+	Caption  string `gorm:"not null" json:"caption" form:"caption" validation:"required"`
+	PhotoURL string `gorm:"not null" json:"photo_url" form:"photo_url" validation:"required"`
 	UserID   uint
 	User     *User
-	TimeModel
 }
 
-func (p *Photo) BeforeCreate(tx *gorm.DB) (err error) {
+func (p *Photo) BeforeCreate() (err error) {
 	_, errCreate := govalidator.ValidateStruct(p)
 	if errCreate != nil {
 		err = errCreate
@@ -25,7 +24,7 @@ func (p *Photo) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-func (p *Photo) BeforeUpdate(tx *gorm.DB) (err error) {
+func (p *Photo) BeforeUpdate() (err error) {
 	_, errUpdate := govalidator.ValidateStruct(p)
 	if errUpdate != nil {
 		err = errUpdate
