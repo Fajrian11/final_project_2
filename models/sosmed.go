@@ -13,7 +13,7 @@ type SocialMedia struct {
 	User           *User
 }
 
-func (p *SocialMedia) BeforeCreate(tx *gorm.DB) (err error) {
+func (p *SocialMedia) BeforeCreate() (err error) {
 	_, errCreate := govalidator.ValidateStruct(p)
 	if errCreate != nil {
 		err = errCreate
@@ -23,7 +23,7 @@ func (p *SocialMedia) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-func (p *SocialMedia) BeforeUpdate(tx *gorm.DB) (err error) {
+func (p *SocialMedia) BeforeUpdate() (err error) {
 	_, errUpdate := govalidator.ValidateStruct(p)
 	if errUpdate != nil {
 		err = errUpdate

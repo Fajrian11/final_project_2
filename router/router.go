@@ -26,6 +26,10 @@ func StartAPP() *gin.Engine {
 	commentRepo := repositories.NewCommentRepo(db)
 	commentService := service.NewCommentService(&commentRepo)
 	commentController := controllers.NewCommentController(commentService)
+	// Sosmed
+	sosmedRepo := repositories.NewSosmedRepo(db)
+	sosmedService := service.NewSosmedService(&sosmedRepo)
+	sosmedController := controllers.NewSosmedController(sosmedService)
 
 	router := gin.Default()
 
@@ -55,6 +59,15 @@ func StartAPP() *gin.Engine {
 		commentRouter.GET("/", commentController.GetCommentControllers)
 		commentRouter.PUT("/update-comment/:commentId", middlewares.CommentAuthorization(), commentController.UpdateCommentControllers)
 		commentRouter.DELETE("/delete-comment/:commentId", middlewares.CommentAuthorization(), commentController.DeleteCommentControllers)
+	}
+
+	sosmedRouter := router.Group("/socialmedias")
+	{
+		sosmedRouter.Use(middlewares.Authentication())
+		sosmedRouter.POST("/create-sosmed", sosmedController.CreateSosmedControllers)
+		sosmedRouter.GET("/", sosmedController.GetSosmedControllers)
+		sosmedRouter.PUT("/update-sosmed/:socialMediaId", middlewares.SosmedAuthorization(), sosmedController.UpdateSosmedControllers)
+		sosmedRouter.DELETE("/delete-sosmed/:socialMediaId", middlewares.SosmedAuthorization(), sosmedController.DeleteSosmedControllers)
 	}
 
 	return router
