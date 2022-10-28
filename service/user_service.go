@@ -31,6 +31,26 @@ func (s UserService) UserRegisterService(c *gin.Context) gin.H {
 		result = gin.H{
 			"result": "Failed Create User",
 		}
+	} else if user.Age < 8 {
+		result = gin.H{
+			"error": "Minimum Age to register is 8",
+		}
+	} else if len(user.Password) < 6 {
+		result = gin.H{
+			"error": "Password Minimal 6 Karakter",
+		}
+	} else if user.Username == "" {
+		result = gin.H{
+			"error": "Your username is required",
+		}
+	} else if user.Email == "" {
+		result = gin.H{
+			"error": "Your email is required",
+		}
+	} else if user.Password == "" {
+		result = gin.H{
+			"error": "Your Password is required",
+		}
 	} else {
 		result = gin.H{
 			"id":       user.ID,
