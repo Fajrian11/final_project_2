@@ -24,7 +24,7 @@ func NewUserRepo(db *gorm.DB) UserRepo {
 type UserRepoApi interface {
 	UserRegister(c *gin.Context) (models.User, error)
 	UserLogin(c *gin.Context) (error, bool, string)
-	UpdateUser(c *gin.Context) (models.User, error)
+	UpdateUser(c *gin.Context) (models.User, models.User, error)
 	DeleteUser(c *gin.Context) (models.User, error)
 }
 
@@ -76,10 +76,11 @@ func (ur *UserRepo) UserLogin(c *gin.Context) (error, bool, string) {
 	return err, comparePass, token
 }
 
-func (ur *UserRepo) UpdateUser(c *gin.Context) (models.User, error) {
+func (ur *UserRepo) UpdateUser(c *gin.Context) (models.User, models.User, error) {
 	userData := c.MustGet("userData").(jwt.MapClaims)
 	contentType := helpers.GetContentType(c)
 	Pengguna := models.User{}
+	PenggunaDefault := models.User{}
 
 	penggunaId, _ := strconv.Atoi(c.Param("penggunaId"))
 	userID := uint(userData["id"].(float64))
@@ -98,7 +99,7 @@ func (ur *UserRepo) UpdateUser(c *gin.Context) (models.User, error) {
 		Username: Pengguna.Username,
 	}).Error
 
-	return Pengguna, err
+	return Pengguna, PenggunaDefault, err
 }
 
 func (ur *UserRepo) DeleteUser(c *gin.Context) (models.User, error) {

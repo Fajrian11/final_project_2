@@ -22,6 +22,10 @@ func StartAPP() *gin.Engine {
 	photoRepo := repositories.NewPhotoRepo(db)
 	photoService := service.NewPhotoService(&photoRepo)
 	photoController := controllers.NewPhotoController(photoService)
+	// Comment
+	commentRepo := repositories.NewCommentRepo(db)
+	commentService := service.NewCommentService(&commentRepo)
+	commentController := controllers.NewCommentController(commentService)
 
 	router := gin.Default()
 
@@ -42,6 +46,15 @@ func StartAPP() *gin.Engine {
 		photoRouter.GET("/", photoController.GetPhotoControllers)
 		photoRouter.PUT("/update-photo/:photoId", middlewares.PhotoAuthorization(), photoController.UpdatePhotoControllers)
 		photoRouter.DELETE("/delete-photo/:photoId", middlewares.PhotoAuthorization(), photoController.DeletePhotoControllers)
+	}
+
+	commentRouter := router.Group("/comments")
+	{
+		commentRouter.Use(middlewares.Authentication())
+		commentRouter.POST("/create-comment", commentController.CreateCommentControllers)
+		commentRouter.GET("/", commentController.GetCommentControllers)
+		commentRouter.PUT("/update-comment/:commentId", middlewares.CommentAuthorization(), commentController.UpdateCommentControllers)
+		commentRouter.DELETE("/delete-comment/:commentId", middlewares.CommentAuthorization(), commentController.DeleteCommentControllers)
 	}
 
 	return router
