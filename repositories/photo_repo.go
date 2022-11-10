@@ -3,6 +3,7 @@ package repositories
 import (
 	"FP2/helpers"
 	"FP2/models"
+	"fmt"
 	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
@@ -53,11 +54,11 @@ func (pr *PhotoRepo) GetAllPhoto(c *gin.Context) ([]models.Photo, error) {
 	UserID := uint(userData["id"].(float64))
 
 	Photo.UserID = UserID
-	Photo.User = &models.User{}
 
 	var GetAllPhoto = []models.Photo{}
-	err := pr.db.Model(&models.Photo{}).Find(&GetAllPhoto).Error
-
+	// err := pr.db.Model(&models.Photo{}).Find(&GetAllPhoto).Error
+	err := pr.db.Preload("User").Find(&GetAllPhoto).Error
+	fmt.Println(err)
 	return GetAllPhoto, err
 }
 

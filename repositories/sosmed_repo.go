@@ -56,7 +56,8 @@ func (sr *SosmedRepo) GetAllSosmed(c *gin.Context) ([]models.SocialMedia, error)
 	Sosmed.User = &models.User{}
 
 	var GetAllSosmed = []models.SocialMedia{}
-	err := sr.db.Model(&models.SocialMedia{}).Find(&GetAllSosmed).Error
+	// err := sr.db.Model(&models.SocialMedia{}).Find(&GetAllSosmed).Error
+	err := sr.db.Preload("User").Find(&GetAllSosmed).Error
 
 	return GetAllSosmed, err
 }

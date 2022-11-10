@@ -56,7 +56,7 @@ func (cr *CommentRepo) GetAllComment(c *gin.Context) ([]models.Comment, error) {
 	Comment.User = &models.User{}
 
 	var GetAllComment = []models.Comment{}
-	err := cr.db.Model(&models.Comment{}).Find(&GetAllComment).Error
+	err := cr.db.Preload("User").Preload("Photo").Find(&GetAllComment).Error
 
 	return GetAllComment, err
 }
