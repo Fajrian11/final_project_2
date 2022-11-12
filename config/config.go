@@ -14,11 +14,11 @@ func LoadConfig() models.Config {
 		log.Fatal("Error Loading .env file")
 	}
 	serverPort := os.Getenv("SERVICE_PORT")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUsername := os.Getenv("DB_USERNAME")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
+	dbHost := os.Getenv("MYSQLHOST")
+	dbPort := os.Getenv("MYSQLPORT")
+	dbUsername := os.Getenv("MYSQLUSER")
+	dbPassword := os.Getenv("MYSQLPASSWORD")
+	dbName := os.Getenv("MYSQLDATABASE")
 
 	config := models.Config{
 		ServerPort: serverPort,
