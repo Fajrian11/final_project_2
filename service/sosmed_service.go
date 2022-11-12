@@ -26,11 +26,14 @@ func (ss SosmedService) CreateSosmedService(c *gin.Context) gin.H {
 		result gin.H
 	)
 
-	Sosmed, err := ss.rr.CreateSosmed(c)
-	if err != nil {
+	Sosmed, _ := ss.rr.CreateSosmed(c)
+	if Sosmed.Name == "" {
 		result = gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+			"error": "Your name is required",
+		}
+	} else if Sosmed.SocialMediaURL == "" {
+		result = gin.H{
+			"error": "Your social_media_url is required",
 		}
 	} else {
 		result = gin.H{

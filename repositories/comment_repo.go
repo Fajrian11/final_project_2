@@ -3,6 +3,7 @@ package repositories
 import (
 	"FP2/helpers"
 	"FP2/models"
+	"fmt"
 	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
@@ -43,6 +44,9 @@ func (cr *CommentRepo) CreateComment(c *gin.Context) (models.Comment, error) {
 	Comment.UserID = UserID
 
 	err := cr.db.Debug().Create(&Comment).Error
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	return Comment, err
 }

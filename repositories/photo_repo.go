@@ -44,6 +44,9 @@ func (pr *PhotoRepo) CreatePhoto(c *gin.Context) (models.Photo, error) {
 	Photo.UserID = UserID
 
 	err := pr.db.Debug().Create(&Photo).Error
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	return Photo, err
 }

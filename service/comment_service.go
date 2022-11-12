@@ -26,11 +26,14 @@ func (cs CommentService) CreateCommentService(c *gin.Context) gin.H {
 		result gin.H
 	)
 
-	Comment, err := cs.rr.CreateComment(c)
-	if err != nil {
+	Comment, _ := cs.rr.CreateComment(c)
+	if Comment.Message == "" {
 		result = gin.H{
-			"error":   "Bad Request",
-			"message": err.Error(),
+			"error": "Your message is required",
+		}
+	} else if Comment.PhotoID == 0 {
+		result = gin.H{
+			"error": "Your photo_id is required",
 		}
 	} else {
 		result = gin.H{

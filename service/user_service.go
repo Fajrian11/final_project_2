@@ -31,14 +31,6 @@ func (s UserService) UserRegisterService(c *gin.Context) gin.H {
 		result = gin.H{
 			"result": "Failed Create User",
 		}
-	} else if user.Age < 8 {
-		result = gin.H{
-			"error": "Minimum Age to register is 8",
-		}
-	} else if len(user.Password) < 6 {
-		result = gin.H{
-			"error": "Password Minimal 6 Karakter",
-		}
 	} else if user.Username == "" {
 		result = gin.H{
 			"error": "Your username is required",
@@ -49,7 +41,19 @@ func (s UserService) UserRegisterService(c *gin.Context) gin.H {
 		}
 	} else if user.Password == "" {
 		result = gin.H{
-			"error": "Your Password is required",
+			"error": "Your password is required",
+		}
+	} else if len(user.Password) < 6 {
+		result = gin.H{
+			"error": "Password Minimal 6 Karakter",
+		}
+	} else if user.Age == 0 {
+		result = gin.H{
+			"error": "Your age is Required",
+		}
+	} else if user.Age < 8 {
+		result = gin.H{
+			"error": "Minimum age to register is 8",
 		}
 	} else {
 		result = gin.H{
@@ -96,7 +100,7 @@ func (us UserService) UpdateUserService(c *gin.Context) gin.H {
 		result gin.H
 	)
 
-	Pengguna, PenggunaDefault, err := us.rr.UpdateUser(c)
+	Pengguna, _, err := us.rr.UpdateUser(c)
 	if err != nil {
 		result = gin.H{
 			"error":   "Bad Request",
@@ -106,7 +110,7 @@ func (us UserService) UpdateUserService(c *gin.Context) gin.H {
 		result = gin.H{
 			"Success":    "Data Has been Updated",
 			"id":         Pengguna.ID,
-			"email":      PenggunaDefault.Email,
+			"email":      Pengguna.Email,
 			"username":   Pengguna.Username,
 			"age":        Pengguna.Age,
 			"updated_at": Pengguna.UpdatedAt,

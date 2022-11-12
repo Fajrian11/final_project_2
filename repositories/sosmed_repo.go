@@ -3,6 +3,7 @@ package repositories
 import (
 	"FP2/helpers"
 	"FP2/models"
+	"fmt"
 	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
@@ -58,6 +59,9 @@ func (sr *SosmedRepo) GetAllSosmed(c *gin.Context) ([]models.SocialMedia, error)
 	var GetAllSosmed = []models.SocialMedia{}
 	// err := sr.db.Model(&models.SocialMedia{}).Find(&GetAllSosmed).Error
 	err := sr.db.Preload("User").Find(&GetAllSosmed).Error
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	return GetAllSosmed, err
 }
