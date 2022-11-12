@@ -29,15 +29,15 @@ func (ps PhotoService) CreatePhotoService(c *gin.Context) gin.H {
 	Photo, _ := ps.rr.CreatePhoto(c)
 	if Photo.Title == "" {
 		result = gin.H{
-			"error": "Your Title is required",
+			"error": "Your title is required",
 		}
 	} else if Photo.Caption == "" {
 		result = gin.H{
-			"error": "Your Caption is required",
+			"error": "Your caption is required",
 		}
 	} else if Photo.PhotoURL == "" {
 		result = gin.H{
-			"error": "Your PhotoURL is required",
+			"error": "Your photo_url is required",
 		}
 	} else {
 		result = gin.H{
