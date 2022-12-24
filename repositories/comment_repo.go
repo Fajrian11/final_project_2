@@ -100,9 +100,9 @@ func (cr *CommentRepo) DeleteComment(c *gin.Context) (models.Comment, error) {
 	Comment.ID = uint(commentId)
 
 	err := cr.db.Exec(`
-	DELETE Comments
-	FROM Comments
-	WHERE Comments.id = ?`, commentId).Error
+	DELETE comments
+	FROM comments
+	WHERE comments.id = ?`, commentId).Error
 
 	return Comment, err
 }
